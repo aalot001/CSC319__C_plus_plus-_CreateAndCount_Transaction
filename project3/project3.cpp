@@ -5,6 +5,9 @@
 #include <iostream>
 using namespace std;
 //To reduce lines in the code, I am going to write every expression in a line.
-int main()
+
+// Start to draw the diagrams.. 
+
+int main() 
 { cout << "Hello GitHub.." << endl; return 0; }
 
