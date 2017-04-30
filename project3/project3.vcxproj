@@ -142,6 +142,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\salerep.txt" />
+    <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\territory.txt" />
+    <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\transaction.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
