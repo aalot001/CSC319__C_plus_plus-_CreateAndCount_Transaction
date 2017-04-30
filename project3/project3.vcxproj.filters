@@ -16,12 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\salerep.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\territory.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="..\..\..\..\Source\Repos\NewRepo\read\read\transaction.txt">
       <Filter>Resource Files</Filter>
     </Text>
