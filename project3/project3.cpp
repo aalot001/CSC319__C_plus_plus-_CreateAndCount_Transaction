@@ -32,14 +32,13 @@ public:
 	void read_write();
 
 	//Do we need getter and setter ?
-
 	//How we can pass the data members to each part in the line?
 
 };
 void transaction::read_write()
 {
 	ifstream file("transaction.txt", ios_base::in);
-	ofstream outputFile("territory_output.txt");
+	ofstream outputFile("output.txt");
 	typedef vector<string> lines;
 	string line;
 	vector<lines> array;
