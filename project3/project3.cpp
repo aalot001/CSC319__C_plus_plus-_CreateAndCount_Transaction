@@ -39,7 +39,7 @@ public:
 void transaction::read_write()
 {
 	ifstream file("transaction.txt", ios_base::in);
-	ofstream outputFile("territory_output.txt");
+	ofstream outputFile("output.txt");
 	typedef vector<string> lines;
 	string line;
 	vector<lines> array;
