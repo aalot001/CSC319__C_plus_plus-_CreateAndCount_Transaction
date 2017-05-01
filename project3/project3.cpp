@@ -14,85 +14,78 @@ using std::endl;
 using std::ostream;
 using std::ifstream;
 
-//enum TerritoryType { NORMAL, PREMIUM }; // We need it: 
+enum TerritoryType { NORMAL, PREMIUM }; 
 
 struct Territory {
-	int territoryid = 2;
+	int territoryid;
 	long amount;
-	void read();
+	TerritoryType type;
 
-	Territory() {
-		territoryid = 0;
-		amount = 0000;
-		if (territoryid == 0) {
-			cout << "I am zero: Territory struct: " << endl;
-		}
-	}
+	Territory(string _territoryid = 0, string _type = "");
+
+		TerritoryType to_ttype(string _type);
+		bool compare_territories(const Territory &a, const Territory &b);
 };
 
-void Territory::read()
+// Not sure ... 
+Territory::Territory(string _territoryid, string _type)
 {
-	cout << "Territory's Read function calls: " << endl;
-	string data;
-	ifstream territory("territory.txt");
-	ofstream output("out00.txt");
-	if (!territory.is_open()) {
-		cerr << "cannot open the file: territory.txt" << endl;
+	ifstream territory_input("territory.txt");
+	string s;
+	vector<Territory> line;
+	if (!territory_input.is_open()) {
+		cerr << "Cannot open: territory.txt" << endl;
 	}
-	else {
-		cout << "Need to go over the file: Ready to read: " << endl;
+	while (territory_input >> s) {
+		vector<string> p;
+		line.push_back(Territory(p[0], p[1]));
 	}
+	/*int res = 0;
+	for (unsigned int i = 0; i < line.size(); i++) {
+		res = 10 * res + s[i] - '0';
+		break;
+		cout << res << endl;
+	}*/
+}
+
+TerritoryType Territory::to_ttype(string _type)
+{
+	cout << _type << endl;
+	return _type[0] == 'N' ? NORMAL : PREMIUM;
+}
+
+bool Territory::compare_territories(const Territory & a, const Territory & b)
+{
+	return a.amount > b.amount;
 }
 
 struct Transaction {
-	int trxid = 5;
+	int trxid;
 	int salerepid;
 	int transactiontype;
 	long amount;
-	void read();
+	
 
-	Transaction() {
-		trxid = 0;
-		if (trxid == 0) {
-			cout << "I am zero: Transaction struct: " << endl;
-		}
-	}
+	Transaction() {}
 };
 
 
-void Transaction::read()
-{
-	cout << "Transaction's read function calls: " << endl;
-	string data;
-	ifstream transaction;
-	transaction.open("transaction.txt");
-	ofstream output("out01.txt");
-
-	if (!transaction.is_open()) {
-		cerr << "cannot open the file: transaction.txt" << endl;
-	}
-	else {
-		cout << "Need to go over the file: Ready to read: " << endl;
-	}
-}
 struct Salerep {
 	int saleepid;
 	int territoryid;
 	long amount;
+
+	Salerep() {}
 };
 
 int main(int argc, char *argv[])
 {
-	cout << argv << endl;
-	cout << argv[0] << endl;
-	//cout << argv[1] << endl;
-	//cout << argv[2] << endl;
-	Territory test;
-	test.read();
-	Transaction test01;
-	test01.read();
+	cout << argc << endl;
+	cout <<"Argv[0]: "<< argv[0] << endl;
+	cout <<"Argv[1]: "<< argv[1] << endl;
+	cout <<"Argv[2]: "<< argv[2] << endl;
+	cout << "Argv[3]: " << argv[3] << endl;
+	cout << "Argv[4]: " << argv[4] << endl;
 
 	return 0;
 }
-
-
