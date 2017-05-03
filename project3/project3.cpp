@@ -13,6 +13,7 @@
 // Not sure which one of the following arugemnts are right to pass: 
 // <territory.txt>,<salerep.txt>,<transactions.txt>,<territory_output.txt> 
 // (territory.txt, salerep.txt, transactions.txt, territory_output.txt)
+//  territory.txt salerep.txt transactions.txt territory_output.txt
 
 //using namespace std; 
 
@@ -69,12 +70,11 @@ struct Transaction {
 	int transactiontype;
 	long amount;
 
-	Transaction(string _trxid, string _salerepid, string _transactiontype, string _amount) :
+	Transaction(string _trxid, string _salerepid, string _transactiontype, string _amount):
 		trxid(piece_casts::to_int(_trxid)),
 		salerepid(piece_casts::to_int(_salerepid)),
 		transactiontype(piece_casts::to_int(_transactiontype)),
-		amount(0) {}
-
+		amount(piece_casts::to_long(_amount)) { }
 };
 
 
@@ -86,16 +86,21 @@ struct Salerep {
 	Salerep(string _saleepid, string _territoryid, string _amount) :
 		saleepid(piece_casts::to_int(_saleepid)),
 		territoryid(piece_casts::to_int(_territoryid)),
-		amount(0) {}
+		amount(piece_casts::to_long(_amount)) { }
 
 };
+
+bool compare_salereps(const Salerep &a, const Salerep &b) {
+	return a.amount > b.amount;
+}
+
 
 int main(int argc, char *argv[])
 {
 	cout << argc << endl;
 	//cout << "Argv[0]: " << argv[0] << endl;
-	cout <<"Argv[1]: "<< argv[1] << endl;
-	cout <<"Argv[2]: "<< argv[2] << endl;
+	cout << "Argv[1]: " << argv[1] << endl;
+	cout << "Argv[2]: " << argv[2] << endl;
 	cout << "Argv[3]: " << argv[3] << endl;
 	cout << "Argv[4]: " << argv[4] << endl;
 	string data;
@@ -104,6 +109,19 @@ int main(int argc, char *argv[])
 	while (territory_input >> data) {
 		vector<string> p;
 		territories.push_back(Territory(p[0], p[1]));
-	  }
+	}
+
+	ifstream salerep_input(argv[2]);
+	vector<Salerep> salereps;
+	while (salerep_input >> data) {
+		vector<string> p;
+		salereps.push_back(Salerep(p[0], p[1], p[2]));
+	}
+
+	ifstream transaction_input(argv[2]);
+	while (transaction_input >> data) {
+		vector<string> p;
+		Transaction t = Transaction(p[0], p[1], p[2], p[3]);
+	}
 	return 0;
 }
