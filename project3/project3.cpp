@@ -69,7 +69,12 @@ struct Transaction {
 	int transactiontype;
 	long amount;
 
-	Transaction() {}
+	Transaction(string _trxid, string _salerepid, string _transactiontype, string _amount) :
+		trxid(piece_casts::to_int(_trxid)),
+		salerepid(piece_casts::to_int(_salerepid)),
+		transactiontype(piece_casts::to_int(_transactiontype)),
+		amount(0) {}
+
 };
 
 
@@ -78,7 +83,10 @@ struct Salerep {
 	int territoryid;
 	long amount;
 
-	Salerep() {}
+	Salerep(string _saleepid, string _territoryid, string _amount) :
+		saleepid(piece_casts::to_int(_saleepid)),
+		territoryid(piece_casts::to_int(_territoryid)),
+		amount(0) {}
 
 };
 
