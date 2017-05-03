@@ -79,30 +79,22 @@ struct Transaction {
 
 
 struct Salerep {
-	int saleepid;
+	int salerepid;
 	int territoryid;
 	long amount;
 
-	Salerep(string _saleepid, string _territoryid, string _amount) :
-		saleepid(piece_casts::to_int(_saleepid)),
+	Salerep(string _salerepid, string _territoryid, string _amount) :
+		salerepid(piece_casts::to_int(_salerepid)),
 		territoryid(piece_casts::to_int(_territoryid)),
 		amount(piece_casts::to_long(_amount)) { }
-
 };
 
 bool compare_salereps(const Salerep &a, const Salerep &b) {
 	return a.amount > b.amount;
 }
 
-
 int main(int argc, char *argv[])
 {
-	cout << argc << endl;
-	//cout << "Argv[0]: " << argv[0] << endl;
-	cout << "Argv[1]: " << argv[1] << endl;
-	cout << "Argv[2]: " << argv[2] << endl;
-	cout << "Argv[3]: " << argv[3] << endl;
-	cout << "Argv[4]: " << argv[4] << endl;
 	string data;
 	ifstream territory_input(argv[1]);
 	vector<Territory> territories;
@@ -122,6 +114,50 @@ int main(int argc, char *argv[])
 	while (transaction_input >> data) {
 		vector<string> p;
 		Transaction t = Transaction(p[0], p[1], p[2], p[3]);
+
+		long long tP, sP, sgn;
+
+		if (t.transactiontype <= 2) {
+			tP = 100;
+			sP = 110;
+			sgn = 1;
+		}
+		if (t.transactiontype == 3) {
+			tP = 100;
+			sP = 100;
+			sgn = -1;
+		}
+		if (t.transactiontype == 4) {
+			tP = 100;
+			sP = 125;
+			sgn = 0;
+		}
+		if (t.transactiontype == 5) {
+			tP = 100;
+			sP = 0;
+			sgn = -1;
+		}
+		if (t.transactiontype == 6) {
+			tP = 100;
+			sP = 110;
+			sgn = -1;
+		}
+		if (t.transactiontype == 7) {
+			tP = 0;
+			sP = 75;
+			sgn = +1;
+		}
+
+		for (int i = 0; i < (int)territories.size(); i++) {
+			if (territories[i].territoryid == t.trxid) {
+				territories[i].amount += sgn * (tP * t.amount / 100);
+			}
+		}
+		for (int i = 0; i < (int)salereps.size(); i++) {
+			if (salereps[i].salerepid == t.salerepid) {
+				salereps[i].amount += sgn * (sP * t.amount / 100);
+			}
+		}
 	}
 	return 0;
 }
