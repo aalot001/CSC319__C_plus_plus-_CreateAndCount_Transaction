@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 		std::vector<std::string> p;
 		Transaction t = Transaction(p[0], p[1], p[2], p[3]);
 
-		long long tP, sP, sgn;
+		long tP, sP, sgn;
 
 		if (t.transactiontype <= 2) {
 			tP = 100;
@@ -152,12 +152,12 @@ int main(int argc, char *argv[])
 			sgn = +1;
 		}
 
-		for (int i = 0; i < (int)territories.size(); i++) {
+		for ( unsigned int i = 0; i < (int)territories.size(); i++) {
 			if (territories[i].territoryid == t.trxid) {
 				territories[i].amount += sgn * (tP * t.amount / 100);
 			}
 		}
-		for (int i = 0; i < (int)salereps.size(); i++) {
+		for ( unsigned int i = 0; i < (int)salereps.size(); i++) {
 			if (salereps[i].salerepid == t.salerepid) {
 				salereps[i].amount += sgn * (sP * t.amount / 100);
 			}
