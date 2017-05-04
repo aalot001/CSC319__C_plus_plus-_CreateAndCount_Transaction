@@ -175,6 +175,7 @@ int main(int argc, char *argv[])
 			}
 		}
 	 }
+
 	// output territories in territory_output
 	std::ofstream territory_output(argv[4]);
 	std::sort(territories.begin(), territories.end(), compare_territories);
