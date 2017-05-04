@@ -97,6 +97,18 @@ bool compare_salereps(const Salerep &a, const Salerep &b) {
 	return a.amount > b.amount;
 }
 
+std::string make_formatted(long x, int len) {
+	std::string s = "";
+
+	while (x > 0) {
+		s = (char)('0' + x % 10) + s;
+		x /= 10;
+	}
+	while ((int)s.size() < len) {
+		s = "0" + s;
+	}
+	return s;
+}
 int main(int argc, char *argv[])
 {
 	std::string data;
