@@ -174,6 +174,19 @@ int main(int argc, char *argv[])
 				salereps[i].amount += sgn * (sP * t.amount / 100);
 			}
 		}
+	 }
+	// output territories in territory_output
+	std::ofstream territory_output(argv[4]);
+	std::sort(territories.begin(), territories.end(), compare_territories);
+	for (unsigned int i = 0; i < (int)territories.size(); i++) {
+		territory_output << make_formatted(territories[i].territoryid, 4) << "," <<
+			make_formatted(territories[i].amount, 7) << "\n";
+	}
+	// output salereps in stdout
+	std::sort(salereps.begin(), salereps.end(), compare_salereps);
+	for (unsigned int i = 0; i < (int)salereps.size(); i++) {
+		std::cout << make_formatted(salereps[i].salerepid, 4) << "," <<
+			make_formatted(salereps[i].amount, 7) << "\n";
 	}
 	return 0;
 }
