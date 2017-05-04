@@ -2,49 +2,53 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include <sstream>
 #include <fstream>
-#include <ostream>
 #include <vector>
 #include <algorithm>
-
-// https://msdn.microsoft.com/en-us/library/5cb46ksf.aspx
-
-// Not sure which one of the following arugemnts are right to pass: 
-// <territory.txt>,<salerep.txt>,<transactions.txt>,<territory_output.txt> 
-// (territory.txt, salerep.txt, transactions.txt, territory_output.txt)
-//  territory.txt salerep.txt transactions.txt territory_output.txt
-
-//using namespace std; 
+#include <cstdlib>
+#include <cstring>
+#include <string>
 
 using std::cout;
 using std::endl;
-using std::vector;
-using std::ofstream;
-using std::ifstream;
-using std::string;
 
+std::vector<std::string> parse(std::string data) {
+
+	std::vector<std::string> res;
+
+	data += ",";
+	std::string current_piece = "";
+
+	for (int i = 0; i < (int)data.size(); i++) {
+		if (data[i] == ',') {
+			res.push_back(current_piece);
+			current_piece.clear();
+			continue;
+		}
+		current_piece += data[i];
+	}
+	return res;
+}
 
 enum TerritoryType { NORMAL, PREMIUM };
 
-
 namespace piece_casts {
 
-	int to_int(string s) {
+	int to_int(std::string s) {
 		int res = 0;
-		for (unsigned int i = 0; i < s.size(); i++) {
+		for (int i = 0; i < (int)s.size(); i++) {
 			res = 10 * res + s[i] - '0';
 		}
 		return res;
 	}
-	long to_long(string s) {
+	long to_long(std::string s) {
 		long res = 0;
-		for (unsigned int i = 0; i < s.size(); i++) {
+		for (int i = 0; i < (int)s.size(); i++) {
 			res = 10 * res + s[i] - '0';
 		}
 		return res;
 	}
-	TerritoryType to_ttype(string s) {
+	TerritoryType to_ttype(std::string s) {
 		return s[0] == 'N' ? NORMAL : PREMIUM;
 	}
 }
@@ -53,16 +57,11 @@ struct Territory {
 	long amount;
 	TerritoryType type;
 
-	Territory(string _territoryid, string _type) :
+	Territory(std::string _territoryid, std::string _type) :
 		territoryid(piece_casts::to_int(_territoryid)),
 		type(piece_casts::to_ttype(_type)),
 		amount(0) {}
 };
-
-bool compare_territories(const Territory & a, const Territory & b)
-{
-	return a.amount > b.amount;
-}
 
 struct Transaction {
 	int trxid;
@@ -70,7 +69,7 @@ struct Transaction {
 	int transactiontype;
 	long amount;
 
-	Transaction(string _trxid, string _salerepid, string _transactiontype, string _amount):
+	Transaction(std::string _trxid, std::string _salerepid, std::string _transactiontype, std::string _amount):
 		trxid(piece_casts::to_int(_trxid)),
 		salerepid(piece_casts::to_int(_salerepid)),
 		transactiontype(piece_casts::to_int(_transactiontype)),
@@ -83,11 +82,16 @@ struct Salerep {
 	int territoryid;
 	long amount;
 
-	Salerep(string _salerepid, string _territoryid, string _amount) :
+	Salerep(std::string _salerepid, std::string _territoryid, std::string _amount) :
 		salerepid(piece_casts::to_int(_salerepid)),
 		territoryid(piece_casts::to_int(_territoryid)),
 		amount(piece_casts::to_long(_amount)) { }
 };
+
+bool compare_territories(const Territory & a, const Territory & b)
+{
+	return a.amount > b.amount;
+}
 
 bool compare_salereps(const Salerep &a, const Salerep &b) {
 	return a.amount > b.amount;
@@ -95,24 +99,24 @@ bool compare_salereps(const Salerep &a, const Salerep &b) {
 
 int main(int argc, char *argv[])
 {
-	string data;
-	ifstream territory_input(argv[1]);
-	vector<Territory> territories;
+	std::string data;
+	std::ifstream territory_input(argv[1]);
+	std::vector<Territory> territories;
 	while (territory_input >> data) {
-		vector<string> p;
+		std::vector<std::string> p = parse(data);
 		territories.push_back(Territory(p[0], p[1]));
 	}
 
-	ifstream salerep_input(argv[2]);
-	vector<Salerep> salereps;
+	std::ifstream salerep_input(argv[2]);
+	std::vector<Salerep> salereps;
 	while (salerep_input >> data) {
-		vector<string> p;
+		std::vector<std::string> p = parse(data);
 		salereps.push_back(Salerep(p[0], p[1], p[2]));
 	}
 
-	ifstream transaction_input(argv[2]);
+	std::ifstream transaction_input(argv[3]);
 	while (transaction_input >> data) {
-		vector<string> p;
+		std::vector<std::string> p;
 		Transaction t = Transaction(p[0], p[1], p[2], p[3]);
 
 		long long tP, sP, sgn;
