@@ -54,9 +54,10 @@ namespace piece_casts {
 }
 struct Territory {
 	int territoryid;
-	long amount;
 	TerritoryType type;
+	long amount;
 
+	Territory() { }
 	Territory(std::string _territoryid, std::string _type) :
 		territoryid(piece_casts::to_int(_territoryid)),
 		type(piece_casts::to_ttype(_type)),
@@ -69,7 +70,10 @@ struct Transaction {
 	int transactiontype;
 	long amount;
 
-	Transaction(std::string _trxid, std::string _salerepid, std::string _transactiontype, std::string _amount):
+	Transaction() { }
+	Transaction(std::string _trxid, std::string _salerepid, 
+		std::string _transactiontype, 
+		std::string _amount):
 		trxid(piece_casts::to_int(_trxid)),
 		salerepid(piece_casts::to_int(_salerepid)),
 		transactiontype(piece_casts::to_int(_transactiontype)),
@@ -82,13 +86,14 @@ struct Salerep {
 	int territoryid;
 	long amount;
 
+	Salerep() { }
 	Salerep(std::string _salerepid, std::string _territoryid, std::string _amount) :
 		salerepid(piece_casts::to_int(_salerepid)),
 		territoryid(piece_casts::to_int(_territoryid)),
 		amount(piece_casts::to_long(_amount)) { }
 };
 
-bool compare_territories(const Territory & a, const Territory & b)
+bool compare_territories(const Territory &a, const Territory &b)
 {
 	return a.amount > b.amount;
 }
@@ -98,8 +103,8 @@ bool compare_salereps(const Salerep &a, const Salerep &b) {
 }
 
 std::string make_formatted(long x, int len) {
-	std::string s = "";
 
+	std::string s = "";
 	while (x > 0) {
 		s = (char)('0' + x % 10) + s;
 		x /= 10;
@@ -118,14 +123,12 @@ int main(int argc, char *argv[])
 		std::vector<std::string> p = parse(data);
 		territories.push_back(Territory(p[0], p[1]));
 	}
-
 	std::ifstream salerep_input(argv[2]);
 	std::vector<Salerep> salereps;
 	while (salerep_input >> data) {
 		std::vector<std::string> p = parse(data);
 		salereps.push_back(Salerep(p[0], p[1], p[2]));
 	}
-
 	std::ifstream transaction_input(argv[3]);
 	while (transaction_input >> data) {
 		std::vector<std::string> p;
@@ -175,19 +178,18 @@ int main(int argc, char *argv[])
 			}
 		}
 	 }
-
 	// output territories in territory_output
 	std::ofstream territory_output(argv[4]);
 	std::sort(territories.begin(), territories.end(), compare_territories);
 	for (unsigned int i = 0; i < (int)territories.size(); i++) {
 		territory_output << make_formatted(territories[i].territoryid, 4) << "," <<
-			make_formatted(territories[i].amount, 7) << "\n";
+			make_formatted(territories[i].amount, 7) << endl;
 	}
 	// output salereps in stdout
 	std::sort(salereps.begin(), salereps.end(), compare_salereps);
 	for (unsigned int i = 0; i < (int)salereps.size(); i++) {
 		std::cout << make_formatted(salereps[i].salerepid, 4) << "," <<
-			make_formatted(salereps[i].amount, 7) << "\n";
+			make_formatted(salereps[i].amount, 7) << endl;
 	}
 	return 0;
 }
