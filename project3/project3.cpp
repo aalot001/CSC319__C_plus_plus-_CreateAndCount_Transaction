@@ -1,5 +1,8 @@
 // project3.cpp : Defines the entry point for the console application.
 
+// Group members:
+
+// Ahmed Alotaibi: 2- Yazeed Aldalbahi
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
